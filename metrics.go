@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	namespace           = "pgc" // postgres
+	namespace           = "pgrc" // postgres
 	programNameLabel    = "name"
 	programVersionLabel = "version"
 	clusterNameLabel    = "cluster_name"

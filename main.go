@@ -17,7 +17,7 @@ import (
 
 const (
 	ProgramFullName              = "Postgres Replication Cluster Exporter"
-	ProgramVersion               = "0.0.1"
+	ProgramVersion               = "0.0.2"
 	WrongParamsExitCode          = 1
 	HttpServerFailureExitCode    = 2
 	TaskSchedulerFailureExitCode = 3
