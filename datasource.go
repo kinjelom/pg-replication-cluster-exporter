@@ -72,7 +72,7 @@ func (db *DataSource) Ping(host string) (int64, error) {
 	return time.Since(start).Milliseconds(), err
 }
 
-func (db *DataSource) QueryOneValWithEffort(host, q string) (string, error) {
+func (db *DataSource) QueryStrWithEffort(host, q string) (string, error) {
 	log.debug("query: `%s`", q)
 	var err error
 	_, err = db.connect(host, false)
@@ -81,28 +81,32 @@ func (db *DataSource) QueryOneValWithEffort(host, q string) (string, error) {
 		return "", err
 	}
 	var v string
-	v, err = db.queryOneVal(host, q)
+	v, err = db.queryStr(host, q)
 	if err != nil {
 		_, err = db.reconnect(host)
 		if err != nil {
 			log.warn("Can't connect %s, error: %v", host, err)
 			return "", err
 		} else {
-			v, err = db.queryOneVal(host, q)
+			v, err = db.queryStr(host, q)
 		}
 	}
 	log.debug("query result: `%s`", v)
 	return v, err
 }
 
-func (db *DataSource) queryOneVal(host, q string) (string, error) {
+func (db *DataSource) queryStr(host, q string) (string, error) {
 	start := time.Now()
 	row := db.connection[host].QueryRow(q)
-	var v string
+	var v any
 	if err := row.Scan(&v); err != nil {
 		db.measurer.updateQueryStats(host, q, time.Since(start).Milliseconds(), false)
 		return "", err
 	}
 	db.measurer.updateQueryStats(host, q, time.Since(start).Milliseconds(), true)
-	return v, nil
+	vStr := ""
+	if v != nil {
+		vStr = fmt.Sprintf("%v", v)
+	}
+	return vStr, nil
 }

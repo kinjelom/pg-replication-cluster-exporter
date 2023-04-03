@@ -8,8 +8,12 @@ import (
 func TestPgLsn_convertPgLsn(t *testing.T) {
 	// pg_lsn supports values between 0/0 and FFFFFFFF/FFFFFFFF.
 
+	// "" == "0/0" == 0
+	val, _ := parsePgLsn("")
+	assert.Equal(t, uint64(0), val)
+
 	// SELECT '0/0'::pg_lsn - '0/0'; 0
-	val, _ := parsePgLsn("0/0")
+	val, _ = parsePgLsn("0/0")
 	assert.Equal(t, uint64(0), val)
 
 	// DEBUG> checking: master.currentWalLsn=`0/189B2E78`, slave.lastWalReceiveLsn=`0/90000A0`, slave.lastWalReplayLsn=`0/90000A0`

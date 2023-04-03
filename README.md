@@ -11,11 +11,11 @@ Inspired by: https://github.com/Qarik-Group/pg-replication-tester - thanks :+1:
 - **pgrc_reconnects_count_total**: Cluster node reconnects total count
 - **pgrc_queries_count_total**: All queries total count
 - **pgrc_last_query_seconds**: Cluster node last query seconds
-- **pgrc_current_wal_lsn_bytes**: `SELECT pg_current_wal_lsn()`
-- **pgrc_last_wal_receive_lsn_bytes**: `SELECT pg_last_wal_receive_lsn()`
-- **pgrc_last_wal_replay_lsn_bytes**: `SELECT pg_last_wal_replay_lsn()`
-- **pgrc_receive_lag_bytes**: Cluster node receive bytes: `pg_current_wal_lsn() - pg_last_wal_receive_lsn()`
-- **pgrc_replay_lag_bytes**: Cluster node replay bytes: `pg_last_wal_receive_lsn() - pg_last_wal_reply_lsn()`
+- **pgrc_current_wal_lsn_bytes**: The current write-ahead log write location - `SELECT pg_current_wal_lsn()`
+- **pgrc_last_wal_receive_lsn_bytes**: The last write-ahead log location that has been received and synced to disk by streaming replication - `SELECT pg_last_wal_receive_lsn()`
+- **pgrc_last_wal_replay_lsn_bytes**: The last write-ahead log location that has been replayed during recovery - `SELECT pg_last_wal_replay_lsn()`
+- **pgrc_receive_lag_bytes**: Cluster node receive lag bytes: `pg_current_wal_lsn() - pg_last_wal_receive_lsn()`
+- **pgrc_replay_lag_bytes**: Cluster node replay lag bytes: `pg_last_wal_receive_lsn() - pg_last_wal_reply_lsn()`
 
 ## Options
 

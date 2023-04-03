@@ -70,31 +70,31 @@ func NewMeasurer(clusterName string) *Measurer {
 		currentWalLsnBytes: promauto.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Name:      "current_wal_lsn_bytes",
-			Help:      "SELECT pg_current_wal_lsn()",
+			Help:      "The current write-ahead log write location: SELECT pg_current_wal_lsn()",
 		}, []string{clusterNameLabel, hostLabel, inRecoveryLabel}),
 
 		lastWalReceiveLsnBytes: promauto.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Name:      "last_wal_receive_lsn_bytes",
-			Help:      "SELECT pg_last_wal_receive_lsn()",
+			Help:      "The last write-ahead log location that has been received and synced to disk by streaming replication: SELECT pg_last_wal_receive_lsn()",
 		}, []string{clusterNameLabel, hostLabel, inRecoveryLabel}),
 
 		lastWalReplayLsnBytes: promauto.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Name:      "last_wal_replay_lsn_bytes",
-			Help:      "SELECT pg_last_wal_replay_lsn()",
+			Help:      "The last write-ahead log location that has been replayed during recovery: SELECT pg_last_wal_replay_lsn()",
 		}, []string{clusterNameLabel, hostLabel, inRecoveryLabel}),
 
 		receiveLagBytes: promauto.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Name:      "receive_lag_bytes",
-			Help:      "Cluster node receive bytes: pg_current_wal_lsn() - pg_last_wal_receive_lsn()",
+			Help:      "Cluster node receive lag bytes: pg_current_wal_lsn() - pg_last_wal_receive_lsn()",
 		}, []string{clusterNameLabel, hostLabel, inRecoveryLabel, masterHostLabel}),
 
 		replayLagBytes: promauto.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Name:      "replay_lag_bytes",
-			Help:      "Cluster node replay bytes: pg_last_wal_receive_lsn() - pg_last_wal_reply_lsn()",
+			Help:      "Cluster node replay lag bytes: pg_last_wal_receive_lsn() - pg_last_wal_reply_lsn()",
 		}, []string{clusterNameLabel, hostLabel, inRecoveryLabel, masterHostLabel}),
 	}
 }
