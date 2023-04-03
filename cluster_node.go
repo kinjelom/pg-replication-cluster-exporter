@@ -42,19 +42,19 @@ func (n *Node) queryForState() *NodeState {
 		// https://www.postgresql.org/docs/current/functions-admin.html
 		if state.isInRecovery {
 			// SLAVE
-			if state.lastWalReceiveLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT pg_last_wal_receive_lsn()"); state.err == nil {
+			if state.lastWalReceiveLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT COALESCE(pg_last_wal_receive_lsn(),'0/0')"); state.err == nil {
 				state.lastWalReceiveLsnBytes, state.err = parsePgLsn(state.lastWalReceiveLsn)
 			} else {
 				state.err = fmt.Errorf("failed to query last received wal location: %v", state.err)
 			}
-			if state.lastWalReplayLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT pg_last_wal_replay_lsn()"); state.err == nil {
+			if state.lastWalReplayLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT COALESCE(pg_last_wal_replay_lsn(),'0/0')"); state.err == nil {
 				state.lastWalReplayLsnBytes, state.err = parsePgLsn(state.lastWalReplayLsn)
 			} else {
 				state.err = fmt.Errorf("failed to query last replayed wal location: %v", state.err)
 			}
 		} else {
 			// MASTER
-			if state.currentWalLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT pg_current_wal_lsn()"); state.err == nil {
+			if state.currentWalLsn, state.err = n.db.QueryStrWithEffort(n.host, "SELECT COALESCE(pg_current_wal_lsn(),'0/0')"); state.err == nil {
 				state.currentWalLsnBytes, state.err = parsePgLsn(state.currentWalLsn)
 			} else {
 				state.err = fmt.Errorf("failed to query current wal location: %v", state.err)

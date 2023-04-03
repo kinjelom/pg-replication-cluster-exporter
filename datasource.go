@@ -98,15 +98,11 @@ func (db *DataSource) QueryStrWithEffort(host, q string) (string, error) {
 func (db *DataSource) queryStr(host, q string) (string, error) {
 	start := time.Now()
 	row := db.connection[host].QueryRow(q)
-	var v any
+	var v string
 	if err := row.Scan(&v); err != nil {
 		db.measurer.updateQueryStats(host, q, time.Since(start).Milliseconds(), false)
 		return "", err
 	}
 	db.measurer.updateQueryStats(host, q, time.Since(start).Milliseconds(), true)
-	vStr := ""
-	if v != nil {
-		vStr = fmt.Sprintf("%v", v)
-	}
-	return vStr, nil
+	return v, nil
 }
