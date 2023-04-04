@@ -111,10 +111,6 @@ func (m *Measurer) updateQueryStats(host string, q string, milliseconds int64, s
 	m.queriesCountTotal.With(prometheus.Labels{clusterNameLabel: m.clusterName, hostLabel: host, queryLabel: q, successLabel: strconv.FormatBool(success)}).Inc()
 }
 
-func (m *Measurer) promUpdateClusterInfo(host string, inRec bool) {
-	m.nodeInfo.With(prometheus.Labels{clusterNameLabel: m.clusterName, hostLabel: host, inRecoveryLabel: strconv.FormatBool(inRec)}).Set(0)
-}
-
 func (m *Measurer) updateClusterState(masterState *NodeState, slaveStates *map[string]*NodeState) {
 	m.nodeInfo.With(prometheus.Labels{clusterNameLabel: m.clusterName, hostLabel: masterState.host, inRecoveryLabel: strconv.FormatBool(false)}).Set(0)
 	m.currentWalLsnBytes.With(prometheus.Labels{clusterNameLabel: m.clusterName, hostLabel: masterState.host, inRecoveryLabel: strconv.FormatBool(false)}).Set(float64(masterState.currentWalLsnBytes))

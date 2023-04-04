@@ -38,3 +38,7 @@ Inspired by: https://github.com/Qarik-Group/pg-replication-tester - thanks :+1:
 ```bash
 GOOS=linux GOARCH=amd64 go build -o pgrc_exporter
 ```
+
+## TODO
+
+https://www.postgresql.org/docs/15/view-pg-replication-slots.html

@@ -28,10 +28,10 @@ func NewNode(db *DataSource, host string) *Node {
 func (n *Node) queryIsInRecovery() (bool, error) {
 	var isInRecoveryStr string
 	var err error
-	if isInRecoveryStr, err = n.db.QueryStrWithEffort(n.host, "SELECT pg_is_in_recovery()"); err != nil {
+	if isInRecoveryStr, err = n.db.QueryStrWithEffort(n.host, "SELECT pg_is_in_recovery()::TEXT"); err != nil {
 		return false, fmt.Errorf("failed to query recovery mode: %v", err)
 	}
-	return isInRecoveryStr == "t" || isInRecoveryStr == "true", nil
+	return isInRecoveryStr == "true", nil
 }
 
 func (n *Node) queryForState() *NodeState {
